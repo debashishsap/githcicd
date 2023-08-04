@@ -19,8 +19,8 @@ jobs:
             npm install -g mbt
 # mbt build -p cf
         - name: Build MTA
-          run: |              
-               mbt build -t gen --mtar
+          run: |   
+               mbt build -p cf                          
                ls -ltr
         
         - name: Upload Artifact
