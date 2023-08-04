@@ -17,9 +17,11 @@ jobs:
           run: |
             npm install          
             npm install -g mbt
-
+# mbt build -p cf
         - name: Build MTA
-          run: mbt build -p cf
+          run: |              
+               mbt build -t gen --mtar
+               ls -ltr
         
         - name: Upload Artifact
           uses: actions/upload-artifact@master
@@ -50,7 +52,6 @@ jobs:
 
         - name: Deploy to Cloud Foundry
           #  uses: guerric-p/cf-cli-action@master         
-          run: |
-            cf deploy ./githcicd_0.0.1.mtar
+          run: |            
             cf -v
             cf help -a            
