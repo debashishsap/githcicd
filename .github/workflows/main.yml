@@ -51,4 +51,6 @@ jobs:
         - name: Deploy to Cloud Foundry
           #  uses: guerric-p/cf-cli-action@master         
           run:
-            cf deploy ./githcicd_0.0.1.mtar
+            # cf deploy ./githcicd_0.0.1.mtar
+            cf help -a
+            ls -ltr
