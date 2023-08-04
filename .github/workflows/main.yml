@@ -42,7 +42,7 @@ jobs:
             wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
             echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
             sudo apt-get update
-            sudo apt-get install cf7-cli
+            sudo apt-get install cf8-cli
             cf -v
 
         - name: CF login
@@ -53,5 +53,4 @@ jobs:
           run: |
             cf deploy ./githcicd_0.0.1.mtar
             cf -v
-            cf help -a
-            ls -ltr
+            cf help -a            
