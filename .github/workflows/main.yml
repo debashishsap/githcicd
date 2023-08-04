@@ -17,11 +17,9 @@ jobs:
           run: |
             npm install          
             npm install -g mbt
-# mbt build -p cf
+
         - name: Build MTA
-          run: |   
-               mbt build -p cf                          
-               ls -ltr
+          run: mbt build -p cf
         
         - name: Upload Artifact
           uses: actions/upload-artifact@master
@@ -47,9 +45,11 @@ jobs:
             sudo apt-get install cf8-cli
             cf -v
             cf install-plugin -f https://github.com/cloudfoundry-incubator/multiapps-cli-plugin/releases/latest/download/multiapps-plugin.linux64
-            
 
         - name: CF login
+          run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASS }} -o ${{ secrets.CF_ORG }} -s dev
+
+        - name: Deploy to Cloud Foundry
+          #  uses: guerric-p/cf-cli-action@master         
           run: |
-            cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASS }} -o ${{ secrets.CF_ORG }} -s dev        
-            cf deploy ./gen/mta.tar
+            cf deploy ./githcicd_0.0.1.mtar            
