@@ -26,26 +26,29 @@ jobs:
             npm install          
             npm install -g mbt
 
-        # - name: Build MTA
-        #   run: mbt build -p cf
+        - name: Build MTA
+          run: mbt build -p cf
         
-        # - name: Upload Artifact
-        #   uses: actions/upload-artifact@master
-        #   with:
-        #     name: mta
-        #     path: ./mta_archives/githubcicd_0.0.1.mtar                
+        - name: Upload Artifact
+          uses: actions/upload-artifact@master
+          with:
+            name: mta
+            path: ./mta_archives/githcicd_0.0.1.mtar                
                    
-    # deploy:
-    #  needs: build
-    #  runs-on: ubuntu-latest
-    #  steps:        
-    #     - name: Download Artifact
-    #       uses: actions/download-artifact@master
-    #       with:
-    #         name: mta
-    #         path: ./                
+    deploy:
+     needs: build
+     runs-on: ubuntu-latest
+     steps:        
+        - name: Download Artifact
+          uses: actions/download-artifact@master
+          with:
+            name: mta
+            path: ./                
 
-    #     - name: Deploy to Cloud Foundry
-    #       #  uses: guerric-p/cf-cli-action@master         
-    #       run:
-    #         docker run ppiper/cf-cli cf push ./githubcicd_0.0.1.mtar -f
+        - name: CF login
+          run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASS }} -o ${{ secrets.CF_ORG }} -s dev
+
+        - name: Deploy to Cloud Foundry
+          #  uses: guerric-p/cf-cli-action@master         
+          run:
+            cf push ./githcicd_0.0.1.mtar -f
