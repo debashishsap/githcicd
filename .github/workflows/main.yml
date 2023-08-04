@@ -44,11 +44,11 @@ jobs:
             sudo apt-get update
             sudo apt-get install cf7-cli
             cf -v
-            
+
         - name: CF login
           run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASS }} -o ${{ secrets.CF_ORG }} -s dev
 
         - name: Deploy to Cloud Foundry
           #  uses: guerric-p/cf-cli-action@master         
           run:
-            cf push ./githcicd_0.0.1.mtar -f
+            cf deploy ./githcicd_0.0.1.mtar
