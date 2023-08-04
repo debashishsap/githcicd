@@ -52,5 +52,6 @@ jobs:
           #  uses: guerric-p/cf-cli-action@master         
           run:
             # cf deploy ./githcicd_0.0.1.mtar
+            cf -v
             cf help -a
             ls -ltr
