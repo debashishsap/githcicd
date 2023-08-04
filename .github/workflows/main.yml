@@ -11,15 +11,7 @@ jobs:
         - name: Use Node.js
           uses: actions/setup-node@v2
           with:
-            node-version: 16
-                  
-        - name: Install CF
-          run: |
-            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-            sudo apt-get update
-            sudo apt-get install cf7-cli
-            cf -v
+            node-version: 16                          
         
         - name: Install MTA Build Tool
           run: |
@@ -45,6 +37,14 @@ jobs:
             name: mta
             path: ./                
 
+        - name: Install CF
+          run: |
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install cf7-cli
+            cf -v
+            
         - name: CF login
           run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASS }} -o ${{ secrets.CF_ORG }} -s dev
 
