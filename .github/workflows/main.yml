@@ -16,14 +16,7 @@ jobs:
         - name: Install MTA Build Tool
           run: |
             npm install          
-            npm install -g mbt
-        - name: Install CF
-          run: |
-            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-            sudo apt-get update
-            sudo apt-get install cf8-cli
-            cf install-plugin -f https://github.com/cloudfoundry-incubator/multiapps-cli-plugin/releases/latest/download/multiapps-plugin.linux64
+            npm install -g mbt        
         
         - name: Build MTA
           run: mbt build -p cf
@@ -42,7 +35,15 @@ jobs:
           uses: actions/download-artifact@master
           with:
             name: mta
-            path: ./                        
+            path: ./          
+
+        - name: Install CF
+          run: |
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install cf8-cli
+            cf install-plugin -f https://github.com/cloudfoundry-incubator/multiapps-cli-plugin/releases/latest/download/multiapps-plugin.linux64              
 
         - name: CF login
           run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASS }} -o ${{ secrets.CF_ORG }} -s dev
